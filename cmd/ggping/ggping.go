@@ -59,7 +59,7 @@ loop:
 				os.Exit(1)
 			}
 
-			status.Update(float64(r.Packet.Rtt.Microseconds()))
+			status.Update(float64(r.Packet.Rtt.Milliseconds()))
 			ggping.DrawChart(plot, status.GetAll(), status.Max, width, height)
 		}
 	}
