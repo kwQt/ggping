@@ -1,8 +1,8 @@
 package ggping
 
-type Status struct {
-	Max float64
+import "math"
 
+type Status struct {
 	data     []float64
 	capacity int
 	head     int
@@ -10,9 +10,8 @@ type Status struct {
 
 func NewStatus(capacity int) *Status {
 	status := &Status{
-		0,
 		[]float64{},
-		capacity - 5,
+		capacity,
 		0,
 	}
 	return status
@@ -20,14 +19,20 @@ func NewStatus(capacity int) *Status {
 
 func (s *Status) Update(value float64) {
 	s.data = append(s.data, value)
+
 	if len(s.data) > s.capacity {
 		s.head++
-	}
-	if value > s.Max {
-		s.Max = value
 	}
 }
 
 func (s *Status) GetAll() []float64 {
 	return s.data[s.head:]
+}
+
+func (s *Status) GetMax() float64 {
+	var max float64 = 0
+	for _, value := range s.GetAll() {
+		max = math.Max(max, value)
+	}
+	return max
 }
